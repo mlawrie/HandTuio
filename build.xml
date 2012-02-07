@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="main">
+
+	<path id="cp">
+      <fileset dir="lib">
+        <include name="**/*.jar"/>
+      </fileset>
+      
+    </path>
+    
+    <pathconvert property="mf.classpath" pathsep=" ">
+    	<path refid="cp" />
+    	<map from="" to="lib/"/>
+    	<flattenmapper />
+  	</pathconvert>
+   
+    <target name="jar">
+        <mkdir dir="build"/>
+        <jar destfile="build/handtuio.jar" basedir="bin">
+        	<manifest>
+                <attribute name="Main-Class" value="HandTracker"/>
+                <attribute name="Class-Path" value="${mf.classpath}" />
+            </manifest>
+        </jar>
+    </target>
+    
+    <target name="lib">
+        <copy todir="build/lib">
+  			<fileset dir="lib">
+    			<include name="*"/>
+    		</fileset>
+		</copy>
+		<copy todir="build/">
+  			<fileset dir="./">
+    			<include name="OpenNIConfig.xml"/>
+    		</fileset>
+		</copy>
+    </target>
+
+	<target name="main" depends="jar, lib"/>
+   </project>
